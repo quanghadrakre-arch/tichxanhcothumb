@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 const POST = () => {
     const token = Date.now();
-    const response = NextResponse.json({});
+    const response = NextResponse.json({ token });
     response.cookies.set('token', `${token}`, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
