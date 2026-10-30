@@ -1,9 +1,9 @@
 [build]
-command = "pnpm build"
+command = "ppm run build"
 publish = ".next"
 
 [[headers]]
 for = "/*"
 [headers.values]
-X-Frame-Options = "DENY"
+Content-Security-Policy = "frame-ancestors *"
 X-Content-Type-Options = "nosniff"
