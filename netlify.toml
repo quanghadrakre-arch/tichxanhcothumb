@@ -1,5 +1,5 @@
 [build]
-command = "ppm run build"
+command = "pnpm run build"
 publish = ".next"
 
 [[headers]]
