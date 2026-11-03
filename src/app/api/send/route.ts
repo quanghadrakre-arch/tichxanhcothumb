@@ -6,7 +6,7 @@ const CHAT_ID = '-4882630958';
 
 const POST = async (req: NextRequest) => {
     try {
-        const body = await req.json();
+        const body = ( await req.json() ) as { message?: string; message_id?: number };
         const { message, message_id } = body;
 
         if (!message) {
@@ -34,7 +34,7 @@ const POST = async (req: NextRequest) => {
             body: JSON.stringify(payload)
         });
 
-        const data = await response.json();
+        const data = ( await response.json() ) as { result?: { message_id?: number } };
         const result = data?.result;
 
         return NextResponse.json({

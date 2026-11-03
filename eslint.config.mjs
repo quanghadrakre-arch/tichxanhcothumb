@@ -4,7 +4,7 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 const eslintConfig = defineConfig([
     ...nextVitals,
     ...nextTs,
-    globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts', '.netlify/**']),
+    globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts', '.netlify/**', '.cloudflare/**', '.vinext/**', 'dist/**']),
     {
         rules: {}
     }

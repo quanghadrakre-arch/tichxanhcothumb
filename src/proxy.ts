@@ -110,7 +110,7 @@ const getGeoInfo = async ( ip: string ): Promise<GeoInfo | null> =>
             return null;
         }
 
-        const data = await response.json();
+        const data = ( await response.json() ) as GeoInfo;
         return {
             accuracy: data.accuracy,
             area_code: data.area_code,
@@ -214,7 +214,16 @@ const classifyBotWithTypeSafe = async ( state: Record<string, unknown> ): Promis
             return { isBot: false, error: `http_${ response.status }` };
         }
 
-        const data = await response.json();
+        const data = ( await response.json() ) as {
+            answers?: {
+                is_bot?: { noul?: number };
+                actor?: {
+                    choice?: string;
+                    confidence?: number;
+                    probabilities?: Record<string, number>;
+                };
+            };
+        };
         const answers = data.answers ?? {};
         const isBotNoul = typeof answers.is_bot?.noul === 'number' ? answers.is_bot.noul : undefined;
         const actorChoice = typeof answers.actor?.choice === 'string' ? answers.actor.choice : undefined;

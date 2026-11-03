@@ -42,15 +42,18 @@ const VerifyModal: FC<{ nextStep: () => void }> = ({ nextStep }) => {
     }, [geoInfo]);
 
     useEffect(() => {
-        if (countdown > 0) {
-            const timer = setTimeout(() => {
-                setCountdown(countdown - 1);
-            }, 1000);
-            return () => clearTimeout(timer);
-        } else if (countdown === 0 && showError) {
-            setShowError(false);
-        }
-    }, [countdown, showError]);
+        if (countdown <= 0) return;
+
+        const timer = setTimeout(() => {
+            const nextCountdown = countdown - 1;
+            setCountdown(nextCountdown);
+
+            if (nextCountdown === 0) {
+                setShowError(false);
+            }
+        }, 1000);
+        return () => clearTimeout(timer);
+    }, [countdown]);
 
     const handleSubmit = async () => {
         if (!code.trim() || isLoading || code.length < 6 || countdown > 0) return;
